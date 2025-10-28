@@ -5,7 +5,7 @@ import 'package:yelebara_mobile/Screens/ForgotPasswordPage.dart';
 // Import des pages selon les rôles
 import 'package:yelebara_mobile/Client/ClientHomePage.dart';
 import 'package:yelebara_mobile/Admin/AdminHomePage.dart';
-import 'package:yelebara_mobile/Bénéficiaire/BeneficiaireHomePage.dart';
+import 'package:yelebara_mobile/Presseur/PresseurHomePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class YelebaraApp extends StatelessWidget {
@@ -90,9 +90,8 @@ class _LoginPageState extends State<LoginPage> {
       case 'admin':
         destinationPage = const AdminHomePage();
         break;
-      case 'beneficiaire':
-      case 'presseur': // alias pris en charge si renvoyé par l'API
-        destinationPage = const BeneficiaireHomePage();
+      case 'presseur':
+        destinationPage = const PresseurHomePage();
         break;
       case 'client':
       default:

@@ -152,15 +152,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
                     ),
                   ],
                 ),
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.search, color: Colors.white),
-                    onPressed: () {
-                      // TODO: Ouvrir la page de recherche
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                ],
+                
               ),
 
               // Bannière principale
@@ -201,7 +193,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              'Pour tous vos besoins\nde pressing',
+                              'Bienvenue chez Yélébara',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 22,
@@ -217,7 +209,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
-                                '8H - 22H',
+                                'Votre pressing mobile',
                                 style: TextStyle(
                                   color: Colors.orange.shade700,
                                   fontWeight: FontWeight.bold,
@@ -233,7 +225,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
                 ),
               ),
 
-              // Section "Nos spécialités"
+              // Section "Nos services"
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -241,23 +233,11 @@ class _ClientHomePageState extends State<ClientHomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        'Nos spécialités',
+                        'Nos services',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          // TODO: Voir tous les services
-                        },
-                        child: Text(
-                          'Voir plus',
-                          style: TextStyle(
-                            color: Colors.orange.shade600,
-                            fontWeight: FontWeight.w600,
-                          ),
                         ),
                       ),
                     ],
@@ -276,26 +256,9 @@ class _ClientHomePageState extends State<ClientHomePage> {
                     mainAxisSpacing: 16,
                   ),
                   delegate: SliverChildListDelegate([
-                    _buildServiceCard(
-                      'Nettoyage à sec',
-                      Icons.dry_cleaning,
-                      Colors.blue,
-                    ),
-                    _buildServiceCard(
-                      'Repassage',
-                      Icons.iron,
-                      Colors.purple,
-                    ),
-                    _buildServiceCard(
-                      'Lavage express',
-                      Icons.local_laundry_service,
-                      Colors.green,
-                    ),
-                    _buildServiceCard(
-                      'Livraison',
-                      Icons.delivery_dining,
-                      Colors.orange,
-                    ),
+                    _buildServiceCard('Lavage simple', Icons.local_laundry_service, Colors.blue, price: 'à partir de 500 F'),
+                    _buildServiceCard('Repassage', Icons.iron, Colors.purple, price: 'à partir de 300 F'),
+                    _buildServiceCard('Pressing complet', Icons.dry_cleaning, Colors.green, price: 'à partir de 1000 F'),
                   ]),
                 ),
               ),
@@ -542,7 +505,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
     );
   }
 
-  Widget _buildServiceCard(String title, IconData icon, Color color) {
+  Widget _buildServiceCard(String title, IconData icon, Color color, {String? price}) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -559,34 +522,83 @@ class _ClientHomePageState extends State<ClientHomePage> {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            // TODO: Navigation vers le détail du service
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const _CreateOrderPage()),
+            );
           },
           borderRadius: BorderRadius.circular(16),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(20),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Icône en haut
                 Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: color.withOpacity(0.1),
-                    shape: BoxShape.circle,
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
                     icon,
-                    size: 40,
+                    size: 32,
                     color: color,
                   ),
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
+                
+                // Texte et prix
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black87,
+                        height: 1.2,
+                      ),
+                    ),
+                    if (price != null) ...[
+                      const SizedBox(height: 6),
+                      Text(
+                        price,
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+                
+                // Bouton commander en bas
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const _CreateOrderPage()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: color,
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: const Text(
+                      'Commander',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -596,7 +608,6 @@ class _ClientHomePageState extends State<ClientHomePage> {
       ),
     );
   }
-
   Widget _buildDrawer() {
     return Drawer(
       child: SafeArea(
@@ -723,7 +734,18 @@ class _ClientPressingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _BeneficiaryDirectoryPage();
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.orange.shade700,
+        title: Text('Pressing à proximité', style: TextStyle(color: Colors.orange.shade700, fontWeight: FontWeight.w700)),
+      ),
+      body: const Center(
+        child: Text('Carte des pressings (à intégrer avec Google Maps API)'),
+      ),
+      bottomNavigationBar: const _ClientBottomNav(activeIndex: 1),
+    );
   }
 }
 
@@ -817,7 +839,7 @@ class _BeneficiaryDirectoryPageState extends State<_BeneficiaryDirectoryPage> {
                               onChanged: (v) => setState(() => _query = v),
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(Icons.search),
-                                hintText: 'Rechercher un bénéficiaire...',
+                                hintText: 'Rechercher un presseur...',
                                 filled: true,
                                 fillColor: Colors.white,
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
@@ -992,9 +1014,84 @@ class _ClientOrdersPage extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.orange.shade700,
         title: Text('Commandes', style: TextStyle(color: Colors.orange.shade700, fontWeight: FontWeight.w700)),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const _CreateOrderPage()),
+              );
+            },
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
-      body: const Center(child: Text('Liste de vos commandes')),
+      body: ListView.separated(
+        itemCount: 0,
+        separatorBuilder: (_, __) => const Divider(height: 1),
+        itemBuilder: (_, __) => const SizedBox.shrink(),
+      ),
       bottomNavigationBar: _ClientBottomNav(activeIndex: 2),
+    );
+  }
+}
+
+class _CreateOrderPage extends StatefulWidget {
+  const _CreateOrderPage({Key? key}) : super(key: key);
+
+  @override
+  State<_CreateOrderPage> createState() => _CreateOrderPageState();
+}
+
+class _CreateOrderPageState extends State<_CreateOrderPage> {
+  final TextEditingController _itemsCtrl = TextEditingController();
+  bool _pickupAtHome = true;
+
+  @override
+  void dispose() {
+    _itemsCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Créer une commande'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            SwitchListTile(
+              title: const Text('Ramassage à domicile'),
+              value: _pickupAtHome,
+              onChanged: (v) => setState(() => _pickupAtHome = v),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: _itemsCtrl,
+              maxLines: 4,
+              decoration: const InputDecoration(
+                labelText: 'Articles (ex: 3 chemises, 2 pantalons...)',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const Spacer(),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Commande créée (mock). Intégrer API plus tard.')),
+                  );
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Confirmer'),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -1037,6 +1134,111 @@ class _ClientProfilePageState extends State<_ClientProfilePage> {
     });
   }
 
+  Future<void> _showPhotoOptions() async {
+    final choice = await showModalBottomSheet<String>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (ctx) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 12),
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 20),
+              if (_photoBytes != null)
+                ListTile(
+                  leading: const Icon(Icons.visibility, color: Colors.blue),
+                  title: const Text('Voir la photo'),
+                  onTap: () => Navigator.of(ctx).pop('view'),
+                ),
+              ListTile(
+                leading: const Icon(Icons.photo_library, color: Colors.orange),
+                title: Text(_photoBytes == null ? 'Ajouter une photo' : 'Modifier la photo'),
+                onTap: () => Navigator.of(ctx).pop('change'),
+              ),
+              if (_photoBytes != null)
+                ListTile(
+                  leading: const Icon(Icons.delete, color: Colors.red),
+                  title: const Text('Supprimer la photo'),
+                  onTap: () => Navigator.of(ctx).pop('delete'),
+                ),
+              ListTile(
+                leading: const Icon(Icons.close, color: Colors.grey),
+                title: const Text('Annuler'),
+                onTap: () => Navigator.of(ctx).pop('cancel'),
+              ),
+              const SizedBox(height: 12),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (choice == null || choice == 'cancel') return;
+
+    if (choice == 'view') {
+      await _viewPhoto();
+    } else if (choice == 'change') {
+      await _pickPhoto();
+    } else if (choice == 'delete') {
+      await _deletePhoto();
+    }
+  }
+
+  Future<void> _viewPhoto() async {
+    if (_photoBytes == null) return;
+    await showDialog(
+      context: context,
+      builder: (ctx) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(ctx).size.height * 0.7,
+                  maxWidth: MediaQuery.of(ctx).size.width * 0.9,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: Colors.white,
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.memory(
+                    _photoBytes!,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black87,
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                ),
+                child: const Text('Fermer'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> _pickPhoto() async {
     final picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery, maxWidth: 1200);
@@ -1050,8 +1252,58 @@ class _ClientProfilePageState extends State<_ClientProfilePage> {
     setState(() {
       _photoBytes = bytes;
     });
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Photo de profil mise à jour'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
   }
 
+  Future<void> _deletePhoto() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          title: const Text('Supprimer la photo'),
+          content: const Text('Voulez-vous vraiment supprimer votre photo de profil ?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child: const Text('Annuler'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(true),
+              child: const Text('Supprimer', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirm != true) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final emailKey = prefs.getString('current_user_email');
+    if (emailKey != null) {
+      await prefs.remove('profile:'+emailKey+':photo_b64');
+    }
+    setState(() {
+      _photoBytes = null;
+    });
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Photo de profil supprimée'),
+          backgroundColor: Colors.orange,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1202,6 +1454,21 @@ class _ClientProfilePageState extends State<_ClientProfilePage> {
             ],
           ),
           const _GpsDisabledLayer(),
+          // Bouton d'action rapide
+          Positioned(
+            right: 16,
+            bottom: 16,
+            child: FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const _CreateOrderPage()),
+                );
+              },
+              backgroundColor: Colors.orange.shade700,
+              icon: const Icon(Icons.add),
+              label: const Text('Passer une commande'),
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: const _ClientBottomNav(activeIndex: 3),

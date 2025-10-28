@@ -3,7 +3,7 @@ import 'dart:async';
 enum UserRole {
   admin,
   client,
-  beneficiaire,
+  presseur,
   other,
 }
 
@@ -16,7 +16,7 @@ class AuthService {
     final normalized = phone.replaceAll(' ', '').toLowerCase();
     if (normalized.contains('admin')) return UserRole.admin;
     if (normalized.contains('client')) return UserRole.client;
-    if (normalized.contains('benef')) return UserRole.beneficiaire;
+    if (normalized.contains('benef')) return UserRole.presseur;
     return UserRole.other;
   }
 }

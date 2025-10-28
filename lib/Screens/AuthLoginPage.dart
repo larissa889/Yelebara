@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yelebara_mobile/Presseur/PresseurHomePage.dart';
 import 'package:yelebara_mobile/services/AuthService.dart';
 import 'package:yelebara_mobile/widgets/YelebaraLogo.dart';
 import 'package:yelebara_mobile/Admin/AdminHomePage.dart';
@@ -143,8 +144,8 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
       case UserRole.client:
         target = const ClientHomePage();
         break;
-      case UserRole.beneficiaire:
-        target = const BeneficiaireHomePage();
+      case UserRole.presseur:
+        target = const PresseurHomePage();
         break;
       case UserRole.other:
         target = const ClientHomePage();
